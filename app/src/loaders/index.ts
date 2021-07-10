@@ -9,7 +9,7 @@ import mongoose from 'mongoose'
  * A function that loads the middlewares for express AND express itself
  * @param expressApp
  */
-export default async function (expressApp: any): Promise<void> {
+export default function (expressApp: any): void {
 	mongoose.connect(`${process.env.MONGOURL}`, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
@@ -19,5 +19,5 @@ export default async function (expressApp: any): Promise<void> {
 	expressApp.use(helmet())
 
 	// Express
-	await expressLoader({ app: expressApp })
+	expressLoader({ app: expressApp })
 }

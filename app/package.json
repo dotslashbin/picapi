@@ -23,7 +23,6 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "helmet": "^4.6.0",
-    "jwt-simple": "^0.5.6",
     "lodash": "^4.17.21",
     "mongodb-client-encryption": "^1.2.6",
     "mongodb-memory-server": "^7.0.0",

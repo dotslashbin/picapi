@@ -12,6 +12,6 @@ export interface DBWriter extends DBConnector {
 }
 
 export interface DBReader extends DBConnector {
-	Fetch(id: string): any
-	Search(params: any): any
+	FetchOne(id: any): any
+	FetchList(params: any): any
 }

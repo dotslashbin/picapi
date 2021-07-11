@@ -1,7 +1,7 @@
-import { DBReader } from '../../structures/interfaces'
+import { DBReader } from '../../structuresRef/interfaces'
 import DBCore from '../DBCore'
 
-export class MongoReader extends DBCore implements DBReader {
+export default class MongoReader extends DBCore implements DBReader {
 	FetchOne(params: any): any {
 		const { model, id } = params
 
@@ -17,7 +17,7 @@ export class MongoReader extends DBCore implements DBReader {
 		const { model } = params
 
 		try {
-			return model.find()
+			return model.find().skip(0).limit(1000).exec()
 		} catch (error) {
 			console.error(error)
 		}

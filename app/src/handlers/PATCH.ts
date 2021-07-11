@@ -43,9 +43,12 @@ export async function Patch(
 					const dbToUse = new MongoWriter()
 					const result = await PhotoWriter.Update(photoId, false, dbToUse)
 
-					console.log(result)
-
-					ReturnSuccess(201, response, { foo: 'change htis later' })
+					if (result) {
+						console.log(result)
+						ReturnSuccess(201, response, result)
+					} else {
+						ReturnError(422, response, 'There was a problem update')
+					}
 				} catch (error) {
 					console.error('Lock error', error)
 				} finally {

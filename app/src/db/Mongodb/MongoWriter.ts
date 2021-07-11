@@ -6,11 +6,9 @@ import { DBWriter } from '../../structuresRef/interfaces'
 export default class MongoWriter extends DBCore implements DBWriter {
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	Save(params: any): any {
+		const { model, inputs } = params
 		try {
-			console.log('oieuroieuroiueiroueouoeruo')
-			// TODO: get model from params
-			// const { model, inputs } = params
-			// return model.create(params)
+			return model.create(inputs)
 		} catch (error) {
 			console.error(error)
 		}

@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { PhotoWriter } from '../services/Photo/PhotoWriter'
 import { ReturnError, ReturnSuccess } from '../helpers/Response'
 // import PDWriter from '../services/personal_data/PDWriter'
 // import { ReturnError, ReturnSuccess } from '../helpers/Response'
@@ -18,7 +19,7 @@ import { ReturnError, ReturnSuccess } from '../helpers/Response'
 export function Create(request: Request, response: Response): void {
 	const { file_name, description, data } = request.body
 
-	console.log(file_name, description, data)
+	PhotoWriter.Create({ file_name, description, data })
 
 	const result = {
 		error: false,

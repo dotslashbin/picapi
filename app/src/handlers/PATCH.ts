@@ -42,7 +42,6 @@ export async function Patch(
 					const dbToUse = new MongoWriter()
 					const result = await PhotoWriter.Update(photoId, false, dbToUse)
 					if (result) {
-						
 						ReturnSuccess(201, response, result)
 					} else {
 						ReturnError(422, response, 'There was a problem update')
@@ -61,11 +60,10 @@ export async function Patch(
  * @param id
  * @returns
  */
-async function isInValidRecordId(id: string): Promise<boolean> {
+async function isValidDataToFetch(id: string): Promise<boolean> {
 	const dbToUse = new MongoReader()
 	const result = await PhotoReader.Fetch(dbToUse, id)
-
-	if (!result.failed) {
+	if (result.failed === true || result.available === false) {
 		return false
 	}
 
@@ -79,14 +77,14 @@ async function isInValidRecordId(id: string): Promise<boolean> {
  * @returns
  */
 async function runValidation(take: boolean, photoId: string): Promise<any> {
-	const isInvalidId = await isInValidRecordId(photoId)
+	const isValidDataTOFetch = await isValidDataToFetch(photoId)
 	let message = ''
 	if (take !== true) {
 		message = 'Invalid TAKE value'
 	} else if (!photoId) {
 		message = 'Missing record id'
-	} else if (isInvalidId) {
-		message = 'Invalid record id'
+	} else if (!isValidDataTOFetch) {
+		message = 'This id is not (or no longer) available'
 	}
 
 	if (message != '') {

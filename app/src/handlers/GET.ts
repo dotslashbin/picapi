@@ -13,8 +13,8 @@ export async function Fetch(
 	response: Response
 ): Promise<void> {
 	const photoId = request.params.photoId ? request.params.photoId : ''
-	const page = request.params.page ? Number(request.params.page) : ''
-	const limit = request.params.limit ? Number(request.params.limit) : ''
+	const page = request.query.page ? Number(request.query.page) : ''
+	const limit = request.query.limit ? Number(request.query.limit) : ''
 	const dbToUse = new MongoReader()
 
 	const result = await PhotoReader.Fetch(dbToUse, photoId, page, limit)

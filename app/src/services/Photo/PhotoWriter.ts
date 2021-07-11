@@ -30,11 +30,18 @@ export class PhotoWriter {
 			})
 	}
 
+	/**
+	 * Method to call update on photo when one is to be taken
+	 * @param id
+	 * @param available
+	 * @param db
+	 * @returns
+	 */
 	static Update(id: string, available: boolean, db: DBWriter): Promise<any> {
 		return db
 			.Update({ id, available, model: getModelForClass(Photo) })
 			.then((result: any) => {
-				console.log('update result', result)
+				return result.ok 
 			})
 			.catch((error: any) => {
 				return getErrorReturn(error)

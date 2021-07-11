@@ -5,7 +5,7 @@ import { prop } from '@typegoose/typegoose'
  * This is implementing typegoose
  */
 
-export class PersonalData {
+export class Photo {
 	@prop({
 		required: [true, 'Filename is required'],
 	})

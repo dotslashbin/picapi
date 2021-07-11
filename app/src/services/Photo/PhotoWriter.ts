@@ -2,7 +2,7 @@ import { getModelForClass } from '@typegoose/typegoose'
 import { DBWriter } from './../../structuresRef/interfaces/index'
 import { PhotoPayload } from '../../structuresRef/types'
 import { Photo } from '../../models/Photo'
-import { getErrorReturn } from '../../helpers/Utilities'
+import { getCleanedDataReturn, getErrorReturn } from '../../helpers/Utilities'
 
 /**
  * Class responsible for writing data into the database
@@ -19,11 +19,11 @@ export class PhotoWriter {
 		return db
 			.Save({ inputs, model: getModelForClass(Photo) })
 			.then((result: any) => {
-				return {
-					id: result.id,
-					description: result.description,
-					available: result.available,
-				}
+				return getCleanedDataReturn(
+					result.id,
+					result.description,
+					result.available
+				)
 			})
 			.catch((error: any) => {
 				return getErrorReturn(error)
@@ -41,11 +41,11 @@ export class PhotoWriter {
 		return db
 			.Update({ id, available, model: getModelForClass(Photo) })
 			.then((result: any) => {
-				return {
-					id: result.id,
-					description: result.description,
-					available: result.available,
-				}
+				return getCleanedDataReturn(
+					result.id,
+					result.description,
+					result.available
+				)
 			})
 			.catch((error: any) => {
 				return getErrorReturn(error)

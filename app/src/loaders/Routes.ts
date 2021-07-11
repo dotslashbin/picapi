@@ -1,4 +1,5 @@
 import express from 'express'
+import { Create } from '../handlers'
 
 /**
  * Route definitions with references to handlers
@@ -6,7 +7,12 @@ import express from 'express'
 export default ({ app }: { app: express.Application }): void => {
 	// Index -> shows version
 	app.get('/', (request, response) => {
+		// eslint-disable-next-line @typescript-eslint/no-var-requires
+		const pjson = require('../../package.json')
+
 		response.status(200)
-		response.json({ foo: 'bar' })
+		response.json({ version: pjson.version })
 	})
+
+	app.post('/image', express.json({ limit: '500kb' }), Create)
 }

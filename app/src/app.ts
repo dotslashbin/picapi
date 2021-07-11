@@ -1,10 +1,11 @@
 import express from 'express'
+import MongoConnector from './db/Mongodb/MongoConnector'
 
 export default async function startServer(): Promise<void> {
 	const app = express()
-
+	const database = new MongoConnector()
 	// eslint-disable-next-line @typescript-eslint/no-var-requires
-	await require('./loaders').default(app)
+	await require('./loaders').default(app, database)
 
 	app
 		.listen(process.env.PORT, () => {

@@ -2,7 +2,9 @@ import { DBReader } from '../../structures/interfaces'
 import DBCore from '../DBCore'
 
 export class MongoReader extends DBCore implements DBReader {
-	Fetch(id: string, model: any): any {
+	FetchOne(params: any): any {
+		const { model, id } = params
+
 		try {
 			return model.findById(id)
 		} catch (error) {
@@ -11,9 +13,11 @@ export class MongoReader extends DBCore implements DBReader {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-	Search(params: any, model: any): any {
+	FetchList(params: any): any {
+		const { model } = params
+
 		try {
-			return model.find(params)
+			return model.find()
 		} catch (error) {
 			console.error(error)
 		}

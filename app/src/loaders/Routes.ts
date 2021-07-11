@@ -15,4 +15,5 @@ export default ({ app }: { app: express.Application }): void => {
 	})
 
 	app.post('/image', express.json({ limit: '500kb' }), Create)
+	app.get('/image/:photoId', express.urlencoded({ extended: true }))
 }

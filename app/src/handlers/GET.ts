@@ -18,6 +18,6 @@ export async function Fetch(
 	if (result.failed) {
 		ReturnError(422, response, result.error.toString())
 	} else {
-		ReturnSuccess(201, response, result)
+		ReturnSuccess(201, response, result, photoId ? false : true)
 	}
 }

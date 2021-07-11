@@ -10,10 +10,20 @@ import { Response } from 'express'
 export const ReturnSuccess = (
 	status: number,
 	response: Response,
-	results: any
+	results: any,
+	isArray = false
 ): void => {
-	const returnFormat = {
-		data: { ...results, code: status },
+	let returnFormat
+
+	if (!isArray) {
+		returnFormat = {
+			data: { ...results, code: status },
+		}
+	} else {
+		results = results.map((record: any) => {
+			return { ...record, code: status }
+		})
+		returnFormat = { data: [...results] }
 	}
 
 	response.status(status)

@@ -26,7 +26,7 @@ export class PhotoWriter {
 			})
 	}
 
-	static Patch(): void {
+	static Update(): void {
 		console.log('calling patch service')
 	}
 }

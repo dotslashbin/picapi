@@ -13,6 +13,7 @@ export default class MongoConnector extends DBCore implements DBConnector {
 		mongoose.connect(`${process.env.MONGOURL}`, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
+			useFindAndModify: false,
 		})
 	}
 }

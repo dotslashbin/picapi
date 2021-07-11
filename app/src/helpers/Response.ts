@@ -34,7 +34,10 @@ export const ReturnError = (
 	error: string
 ): void => {
 	const returnFormat = {
-		error,
+		data: {
+			code: status,
+			description: error,
+		},
 	}
 
 	response.status(status)

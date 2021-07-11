@@ -1,4 +1,4 @@
-import { DBConnector } from '../structures/interfaces'
+import { DBConnector } from '../structuresRef/interfaces'
 
 /**
  * Abstract class that lays the foundation of a "Database core".

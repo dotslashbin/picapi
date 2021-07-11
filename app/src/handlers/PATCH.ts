@@ -60,14 +60,20 @@ export async function Patch(
  * @param id
  * @returns
  */
-async function isValidDataToFetch(id: string): Promise<boolean> {
+async function isValidDataToFetch(id: string): Promise<any> {
 	const dbToUse = new MongoReader()
 	const result = await PhotoReader.Fetch(dbToUse, id)
-	if (result.failed === true || result.available === false) {
-		return false
+	let message = ''
+	let isValid = true
+	if (result.failed === true) {
+		isValid = false
+		message = 'This id does not exists in our records'
+	} else if (result.available === false) {
+		isValid = false
+		message = 'Image already taken'
 	}
 
-	return true
+	return { isValid, message }
 }
 
 /**
@@ -77,18 +83,18 @@ async function isValidDataToFetch(id: string): Promise<boolean> {
  * @returns
  */
 async function runValidation(take: boolean, photoId: string): Promise<any> {
-	const isValidDataTOFetch = await isValidDataToFetch(photoId)
-	let message = ''
+	const { isValid, message } = await isValidDataToFetch(photoId)
+	let errorMessage = ''
 	if (take !== true) {
-		message = 'Invalid TAKE value'
+		errorMessage = 'Invalid TAKE value'
 	} else if (!photoId) {
-		message = 'Missing record id'
-	} else if (!isValidDataTOFetch) {
-		message = 'This id is not (or no longer) available'
+		errorMessage = 'Missing record id'
+	} else if (!isValid) {
+		errorMessage = message
 	}
 
-	if (message != '') {
-		return { failed: true, message }
+	if (errorMessage != '') {
+		return { failed: true, message: errorMessage }
 	}
 
 	return { failed: false }

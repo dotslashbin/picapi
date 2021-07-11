@@ -27,7 +27,6 @@ export async function Patch(
 	if (failed) {
 		ReturnError(422, response, message)
 	} else {
-		// let locks: Map<string, MutexInterface>
 		const locks = new Map()
 
 		// Checks to see if there is a photoId on the lock

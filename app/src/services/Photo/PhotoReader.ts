@@ -26,10 +26,7 @@ export default class PhotoReader {
 					})
 				})
 				.catch((error: any) => {
-					return {
-						failed: true,
-						error,
-					}
+					return PhotoReader.getErrorReturn(error)
 				})
 		}
 
@@ -43,10 +40,14 @@ export default class PhotoReader {
 				}
 			})
 			.catch((error: any) => {
-				return {
-					failed: true,
-					error,
-				}
+				return PhotoReader.getErrorReturn(error)
 			})
+	}
+
+	private static getErrorReturn(error: any): { failed: boolean; error: any } {
+		return {
+			failed: true,
+			error,
+		}
 	}
 }

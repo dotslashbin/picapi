@@ -4,10 +4,15 @@ import { DBReader } from '../../structuresRef/interfaces'
 
 export default class PhotoReader {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static Fetch(db: DBReader, id?: string): Promise<any> {
+	static Fetch(
+		db: DBReader,
+		id?: string,
+		page?: number | '',
+		limit?: number | ''
+	): Promise<any> {
 		if (!id) {
 			return db
-				.FetchList({ page: 1, limit: 10, model: getModelForClass(Photo) })
+				.FetchList({ page, limit, model: getModelForClass(Photo) })
 				.then((result: any) => {
 					return result.map((record: any) => {
 						return {

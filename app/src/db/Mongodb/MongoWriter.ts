@@ -3,6 +3,10 @@
 // import { DBWriter } from '../../structures/interfaces'
 import DBCore from '../DBCore'
 import { DBWriter } from '../../structuresRef/interfaces'
+
+/**
+ * Responsible for writing data to the database
+ */
 export default class MongoWriter extends DBCore implements DBWriter {
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	Save(params: any): any {

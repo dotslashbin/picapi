@@ -16,8 +16,6 @@ export const ReturnSuccess = (
 		data: { ...results, code: status },
 	}
 
-	console.log(returnFormat)
-
 	response.status(status)
 	response.json(returnFormat)
 }

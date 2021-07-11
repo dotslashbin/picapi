@@ -41,7 +41,7 @@ export async function Patch(
 			.then(async (release: any) => {
 				try {
 					const dbToUse = new MongoWriter()
-					const result = await PhotoWriter.Update(photoId, take, dbToUse)
+					const result = await PhotoWriter.Update(photoId, false, dbToUse)
 
 					console.log(result)
 

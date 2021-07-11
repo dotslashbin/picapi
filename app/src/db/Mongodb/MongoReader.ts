@@ -15,6 +15,11 @@ export default class MongoReader extends DBCore implements DBReader {
 		this.limit = DEFAULT_LIMIT
 	}
 
+	/**
+	 * Fetches one record
+	 * @param params
+	 * @returns
+	 */
 	FetchOne(params: any): any {
 		const { model, id } = params
 
@@ -25,11 +30,14 @@ export default class MongoReader extends DBCore implements DBReader {
 		}
 	}
 
+	/**
+	 * Fetches multiple records with pagination applied
+	 * @param params Fetches
+	 * @returns
+	 */
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	FetchList(params: any): any {
 		const { model, page, limit } = params
-
-		console.log(page, limit)
 
 		try {
 			return model

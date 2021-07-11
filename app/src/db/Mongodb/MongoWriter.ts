@@ -8,6 +8,11 @@ import { DBWriter } from '../../structuresRef/interfaces'
  * Responsible for writing data to the database
  */
 export default class MongoWriter extends DBCore implements DBWriter {
+	/**
+	 * Calls to save a new record to the mongo database using typegoose ORM
+	 * @param params
+	 * @returns
+	 */
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	Save(params: any): any {
 		const { model, inputs } = params

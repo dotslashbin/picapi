@@ -2,8 +2,12 @@ import MongoReader from '../db/Mongodb/MongoReader'
 import { Request, Response } from 'express'
 import { ReturnError, ReturnSuccess } from '../helpers/Response'
 import PhotoReader from '../services/Photo/PhotoReader'
-import { parse } from 'path/posix'
 
+/**
+ * Hndler for GET methdos
+ * @param request
+ * @param response
+ */
 export async function Fetch(
 	request: Request,
 	response: Response

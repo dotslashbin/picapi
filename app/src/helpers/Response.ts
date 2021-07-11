@@ -15,6 +15,7 @@ export const ReturnSuccess = (
 ): void => {
 	let returnFormat
 
+	// Takes care of the  formatting
 	if (!isArray) {
 		returnFormat = {
 			data: { ...results, code: status },

@@ -2,6 +2,9 @@ import { Photo } from '../../models/Photo'
 import { getModelForClass } from '@typegoose/typegoose'
 import { DBReader } from '../../structuresRef/interfaces'
 
+/**
+ * Service class for reading data
+ */
 export default class PhotoReader {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static Fetch(

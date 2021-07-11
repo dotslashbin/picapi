@@ -1,6 +1,8 @@
-import MongoWriter from '../db/Mongodb/MongoWriter'
+// import MongoWriter from '../db/Mongodb/MongoWriter'
+import MongoReader from '../db/Mongodb/MongoReader'
 import { Request, Response } from 'express'
-import { PhotoWriter } from '../services/Photo/PhotoWriter'
+import PhotoReader from '../services/Photo/PhotoReader'
+
 import { ReturnError, ReturnSuccess } from '../helpers/Response'
 
 /**
@@ -17,7 +19,7 @@ export async function Patch(
 	response: Response
 ): Promise<void> {
 	const { take } = request.body
-	console.log(take)
+	const photoId = request.params.photoId
 
 	// const dbToUse = new MongoWriter()
 	// const result = await PhotoWriter.Update(
@@ -25,9 +27,28 @@ export async function Patch(
 	// 	dbToUse
 	// )
 
-	// if (result.failed) {
-	// 	ReturnError(422, response, result.error.toString())
-	// } else {
-	// 	ReturnSuccess(201, response, result)
-	// }
+	const isInvalidId = await isInValidRecordId(photoId)
+
+	console.log(isInvalidId)
+
+	if (take !== true) {
+		ReturnError(422, response, 'Invalid TAKE value')
+	} else if (!photoId) {
+		ReturnError(422, response, 'Missing record id')
+	} else if (isInvalidId) {
+		ReturnError(422, response, 'Invalid record id')
+	} else {
+		ReturnSuccess(201, response, { foo: 'change htis later' })
+	}
+}
+
+async function isInValidRecordId(id: string): Promise<boolean> {
+	const dbToUse = new MongoReader()
+	const result = await PhotoReader.Fetch(dbToUse, id)
+
+	if (!result.failed) {
+		return false
+	}
+
+	return true
 }

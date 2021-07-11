@@ -1,10 +1,10 @@
-// import MongoWriter from '../db/Mongodb/MongoWriter'
+import MongoWriter from '../db/Mongodb/MongoWriter'
 import MongoReader from '../db/Mongodb/MongoReader'
 import { Request, Response } from 'express'
 import PhotoReader from '../services/Photo/PhotoReader'
-import { Mutex, MutexInterface } from 'async-mutex'
+import { PhotoWriter } from '../services/Photo/PhotoWriter'
+import { Mutex } from 'async-mutex'
 import { ReturnError, ReturnSuccess } from '../helpers/Response'
-import { Console } from 'console'
 
 /**
  * This file is responsible for all PATCH request handling
@@ -21,12 +21,6 @@ export async function Patch(
 ): Promise<void> {
 	const { take } = request.body
 	const photoId = request.params.photoId
-
-	// const dbToUse = new MongoWriter()
-	// const result = await PhotoWriter.Update(
-	// 	{ file_name, description, data, available: true },
-	// 	dbToUse
-	// )
 
 	const { failed, message } = await runValidation(take, photoId)
 
@@ -46,7 +40,10 @@ export async function Patch(
 			.acquire()
 			.then(async (release: any) => {
 				try {
-					console.log('hahahahhaha you are in')
+					const dbToUse = new MongoWriter()
+					const result = await PhotoWriter.Update(photoId, take, dbToUse)
+
+					console.log(result)
 
 					ReturnSuccess(201, response, { foo: 'change htis later' })
 				} catch (error) {

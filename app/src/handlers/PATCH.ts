@@ -2,8 +2,9 @@
 import MongoReader from '../db/Mongodb/MongoReader'
 import { Request, Response } from 'express'
 import PhotoReader from '../services/Photo/PhotoReader'
-
+import { Mutex, MutexInterface } from 'async-mutex'
 import { ReturnError, ReturnSuccess } from '../helpers/Response'
+import { Console } from 'console'
 
 /**
  * This file is responsible for all PATCH request handling
@@ -27,21 +28,41 @@ export async function Patch(
 	// 	dbToUse
 	// )
 
-	const isInvalidId = await isInValidRecordId(photoId)
+	const { failed, message } = await runValidation(take, photoId)
 
-	console.log(isInvalidId)
-
-	if (take !== true) {
-		ReturnError(422, response, 'Invalid TAKE value')
-	} else if (!photoId) {
-		ReturnError(422, response, 'Missing record id')
-	} else if (isInvalidId) {
-		ReturnError(422, response, 'Invalid record id')
+	if (failed) {
+		ReturnError(422, response, message)
 	} else {
-		ReturnSuccess(201, response, { foo: 'change htis later' })
+		// let locks: Map<string, MutexInterface>
+		const locks = new Map()
+
+		// Checks to see if there is a photoId on the lock
+		if (!locks.has(photoId)) {
+			locks.set(photoId, new Mutex())
+		}
+
+		locks
+			.get(photoId)
+			.acquire()
+			.then(async (release: any) => {
+				try {
+					console.log('hahahahhaha you are in')
+
+					ReturnSuccess(201, response, { foo: 'change htis later' })
+				} catch (error) {
+					console.error('Lock error', error)
+				} finally {
+					release()
+				}
+			})
 	}
 }
 
+/**
+ * Check if it is an invalid record id
+ * @param id
+ * @returns
+ */
 async function isInValidRecordId(id: string): Promise<boolean> {
 	const dbToUse = new MongoReader()
 	const result = await PhotoReader.Fetch(dbToUse, id)
@@ -51,4 +72,28 @@ async function isInValidRecordId(id: string): Promise<boolean> {
 	}
 
 	return true
+}
+
+/**
+ * Method that executes the process of validation
+ * @param take
+ * @param photoId
+ * @returns
+ */
+async function runValidation(take: boolean, photoId: string): Promise<any> {
+	const isInvalidId = await isInValidRecordId(photoId)
+	let message = ''
+	if (take !== true) {
+		message = 'Invalid TAKE value'
+	} else if (!photoId) {
+		message = 'Missing record id'
+	} else if (isInvalidId) {
+		message = 'Invalid record id'
+	}
+
+	if (message != '') {
+		return { failed: true, message }
+	}
+
+	return { failed: false }
 }

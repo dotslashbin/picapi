@@ -1,6 +1,7 @@
 import { Photo } from '../../models/Photo'
 import { getModelForClass } from '@typegoose/typegoose'
 import { DBReader } from '../../structuresRef/interfaces'
+import { getErrorReturn } from '../../helpers/Utilities'
 
 /**
  * Service class for reading data
@@ -26,7 +27,7 @@ export default class PhotoReader {
 					})
 				})
 				.catch((error: any) => {
-					return PhotoReader.getErrorReturn(error)
+					return getErrorReturn(error)
 				})
 		}
 
@@ -40,14 +41,7 @@ export default class PhotoReader {
 				}
 			})
 			.catch((error: any) => {
-				return PhotoReader.getErrorReturn(error)
+				return getErrorReturn(error)
 			})
-	}
-
-	private static getErrorReturn(error: any): { failed: boolean; error: any } {
-		return {
-			failed: true,
-			error,
-		}
 	}
 }

@@ -1,5 +1,5 @@
 import express from 'express'
-import { Create } from '../handlers'
+import { Create, Fetch } from '../handlers'
 
 /**
  * Route definitions with references to handlers
@@ -15,4 +15,6 @@ export default ({ app }: { app: express.Application }): void => {
 	})
 
 	app.post('/image', express.json({ limit: '500kb' }), Create)
+	app.get('/image/:photoId', express.urlencoded({ extended: true }), Fetch)
+	app.get('/image', express.urlencoded({ extended: true }), Fetch)
 }

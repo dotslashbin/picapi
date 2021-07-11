@@ -25,10 +25,14 @@ export default class MongoWriter extends DBCore implements DBWriter {
 
 	// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 	Update(params: any): any {
-		const { model, inputs } = params
-
+		const { model, id, available } = params
+		console.log(id, available)
 		try {
-			console.log('calling Mongowriter update')
+			return model.updateOne(
+				{ _id: id },
+				{ available },
+				{ upsert: false }
+			)
 		} catch (error) {
 			console.error(error)
 		}

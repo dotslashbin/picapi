@@ -41,7 +41,11 @@ export class PhotoWriter {
 		return db
 			.Update({ id, available, model: getModelForClass(Photo) })
 			.then((result: any) => {
-				return result.ok 
+				return {
+					id: result.id,
+					description: result.description,
+					available: result.available,
+				}
 			})
 			.catch((error: any) => {
 				return getErrorReturn(error)

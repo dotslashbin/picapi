@@ -1,11 +1,7 @@
+import MongoWriter from '../db/Mongodb/MongoWriter'
 import { Request, Response } from 'express'
 import { PhotoWriter } from '../services/Photo/PhotoWriter'
 import { ReturnError, ReturnSuccess } from '../helpers/Response'
-// import PDWriter from '../services/personal_data/PDWriter'
-// import { ReturnError, ReturnSuccess } from '../helpers/Response'
-// import MongoWriter from '../db/Mongodb/MongoWriter'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 
 /**
  * This file is responsible for all POST request handling
@@ -16,19 +12,21 @@ import { ReturnError, ReturnSuccess } from '../helpers/Response'
  * @param request
  * @param response
  */
-export function Create(request: Request, response: Response): void {
+export async function Create(
+	request: Request,
+	response: Response
+): Promise<void> {
 	const { file_name, description, data } = request.body
 
-	PhotoWriter.Create({ file_name, description, data })
+	const dbToUse = new MongoWriter()
+	const result = await PhotoWriter.Create(
+		{ file_name, description, data, available: true },
+		dbToUse
+	)
 
-	const result = {
-		error: false,
-		data: { id: 1, description: 'xxx', available: false },
-	}
-
-	if (result.error) {
-		ReturnError(422, response, 'this si atest')
+	if (result.failed) {
+		ReturnError(422, response, result.error.toString())
 	} else {
-		ReturnSuccess(201, response, result.data)
+		ReturnSuccess(201, response, result)
 	}
 }

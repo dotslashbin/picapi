@@ -1,0 +1,25 @@
+version: "3.8"
+services:
+    picapi_app:
+        build:
+            context: ./app
+        networks:
+          picapi_net:
+            ipv4_address: 10.6.0.7
+        environment:
+          - PORT=8080
+          - MONGOURL=mongodb://picapi_db:27017/picapi
+    picapi_db:
+        image: mongo
+        ports:
+            - "27017:27017"
+        restart: unless-stopped
+        networks:
+          picapi_net:
+            ipv4_address: 10.6.0.9
+networks:
+  picapi_net:
+      driver: bridge
+      ipam:
+        config:
+            - subnet: 10.6.0.0/16

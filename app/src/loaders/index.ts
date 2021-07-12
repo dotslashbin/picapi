@@ -3,18 +3,14 @@
 import expressLoader from './Routes'
 import cors from 'cors'
 import helmet from 'helmet'
-import mongoose from 'mongoose'
+import { DBConnector } from '../structuresRef/interfaces'
 
 /**
  * A function that loads the middlewares for express AND express itself
  * @param expressApp
  */
-export default function (expressApp: any): void {
-	mongoose.connect(`${process.env.MONGOURL}`, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	})
-
+export default function (expressApp: any, connector: DBConnector): void {
+	connector.Connect()
 	expressApp.use(cors())
 	expressApp.use(helmet())
 

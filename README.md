@@ -27,10 +27,11 @@ Picapi is a  simple monolith built with NodeJS. It provides API endpoints that a
 
 ## Running the app locally
 1.  Clone the repository and change the directory to where you cloned the application.
-2.  To avoid complications, please ensure that nothing on your system is using ports 8080 and 27017. Should you wish to use other ports, please edit the docker-compose.yml file accordingly. [Here](https://docs.docker.com/compose/networking/) is a reference to help you with the configuration.
-3.  Ensure that your system has running docker installation that supports docker-compose. [Here](https://docs.docker.com/get-docker/) is a guide for installation, should you need it.
-4.  In the directory, you will find that there is a _makefile._ It will build the environment for you. Run **make** and wait for the process to finish.
-5.  As soon as you see containers running, you can test the endpoints using your favorite API testing tools. If you see the indications below, you should be good to go. 
+2.  Checkout the **main** branch.
+3.  To avoid complications, please ensure that nothing on your system is using ports 8080 and 27017. Should you wish to use other ports, please edit the docker-compose.yml file accordingly. [Here](https://docs.docker.com/compose/networking/) is a reference to help you with the configuration.
+4.  Ensure that your system has running docker installation that supports docker-compose. [Here](https://docs.docker.com/get-docker/) is a guide for installation, should you need it.
+5.  In the directory, you will find that there is a _makefile._ It will build the environment for you. Run **make** and wait for the process to finish.
+6.  As soon as you see containers running, you can test the endpoints using your favorite API testing tools. If you see the indications below, you should be good to go. 
 
 > Creating picapi_picapi_app_1 ... done
 Creating picapi_picapi_db_1  ... done 
